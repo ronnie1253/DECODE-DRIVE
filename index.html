@@ -23,22 +23,31 @@
     </nav>
     <div class="container">
         <h1 class="text-center">Find Your Perfect Car</h1>
-        <form id="carForm">
+        <form action="#" th:action="@{/suggest-cars}" method="get">
             <div class="form-group">
                 <label for="type">Car Type</label>
-                <input type="text" class="form-control" id="type" placeholder="Enter car type" required>
+                <input type="text" class="form-control" id="type" name="type" placeholder="Enter car type" required>
             </div>
             <div class="form-group">
                 <label for="budget">Budget</label>
-                <input type="number" class="form-control" id="budget" placeholder="Enter your budget" required>
+                <input type="number" class="form-control" id="budget" name="budget" placeholder="Enter your budget" required>
             </div>
             <button type="submit" class="btn btn-primary btn-block">Get Suggestions</button>
         </form>
-        <div id="results" class="results"></div>
+        <div th:if="${cars}" class="results">
+            <h3>Suggested Cars:</h3>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="car : ${cars}">
+                    <strong th:text="${car.name}"></strong> - <span th:text="${car.type}"></span> - $<span th:text="${car.price}"></span>
+                </li>
+            </ul>
+        </div>
+        <div th:if="${#lists.isEmpty(cars)}" class="results">
+            <h3>No cars found matching your criteria.</h3>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="app.js"></script>
 </body>
 </html>
